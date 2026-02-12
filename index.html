@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You My Valentine ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        :root { --pink-soft: #ffc2d1; --pink-bold: #fb6f92; --white: #ffffff; }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+        
+        body { 
+            background: var(--pink-soft); 
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex; align-items: center; justify-content: center;
+            background-image: radial-gradient(circle, #ffe5ec 0%, #ffc2d1 100%);
+        }
+
+        /* Kelopak Mawar Jatuh */
+        .petal { position: absolute; background: var(--pink-bold); border-radius: 150% 0 150% 0; animation: fall 5s linear infinite; z-index: 1; opacity: 0.7; }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Container Surat */
+        .container { position: relative; z-index: 10; text-align: center; }
+
+        .envelope {
+            width: 200px; height: 150px; background: #fb6f92;
+            margin: 0 auto; border-radius: 0 0 10px 10px;
+            position: relative; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: 0.5s;
+        }
+
+        .envelope::before {
+            content: ''; position: absolute; top: -100px; left: 0;
+            border-left: 100px solid transparent; border-right: 100px solid transparent;
+            border-bottom: 100px solid #ff8fab;
+        }
+
+        .heart-btn {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            font-size: 40px; color: #ff0000; filter: drop-shadow(0 0 5px white);
+        }
+
+        /* Box Pesan */
+        #loveBox {
+            display: none; background: white; padding: 30px;
+            border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            width: 90%; max-width: 350px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        h1 { font-family: 'Sacramento', cursive; color: var(--pink-bold); font-size: 2.5rem; margin-bottom: 15px; }
+        
+        .buttons { margin-top: 25px; height: 60px; position: relative; }
+
+        .btn-yes { background: var(--pink-bold); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1rem; }
+        .btn-no { background: #eee; color: #999; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; position: absolute; transition: 0.1s; }
+
+        #finalMessage { display: none; }
+        .image-cute { width: 150px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="envelope" onclick="openLetter()">
+            <div class="envelope">
+                <div class="heart-btn">❤️</div>
+            </div>
+            <p style="margin-top: 20px; color: var(--pink-bold); font-weight: bold;">Ada pesan buat kamu, klik amplopnya!</p>
+        </div>
+
+        <div id="loveBox">
+            <img src="https://media.tenor.com/7b9V6G3X6AAAAAAi/peach-goma.gif" class="image-cute" alt="Cute Bear">
+            <h1>Will you be my Valentine?</h1>
+            <p style="font-size: 0.9rem; color: #666;">Cuma ada dua pilihan, tapi aku tau kamu pilih yang mana 😜</p>
+            
+            <div class="buttons">
+                <button class="btn-yes" onclick="celebrate()">Mau Banget!</button>
+                <button class="btn-no" id="noBtn" onmouseover="runAway()">Nggak Mau</button>
+            </div>
+        </div>
+
+        <div id="finalMessage">
+            <img src="https://media.tenor.com/UInr_K09pGMAAAAi/cute-bear.gif" class="image-cute">
+            <h1>Yeeay! ❤️</h1>
+            <p style="color: #666;">I love you! Makasih udah mau jadi Valentine aku tahun ini. Janji ya bakal bareng terus!</p>
+            <p style="margin-top: 20px; color: var(--pink-bold); font-weight: bold;">- Anugrah -</p>
+        </div>
+    </div>
+
+    <script>
+        // Efek Kelopak Bunga
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.width = Math.random() * 15 + 10 + 'px';
+            petal.style.height = petal.style.width;
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 5000);
+        }
+        setInterval(createPetal, 300);
+
+        function openLetter() {
+            document.getElementById('envelope').style.display = 'none';
+            document.getElementById('loveBox').style.display = 'block';
+        }
+
+        function runAway() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('loveBox').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+            confettiEffect();
+        }
+
+        // Sedikit efek perayaan sederhana
+        function confettiEffect() {
+            for(let i=0; i<50; i++) {
+                createPetal(); // Pakai petal sebagai confetti
+            }
+        }
+    </script>
+</body>
+</html>
